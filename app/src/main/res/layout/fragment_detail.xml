@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
+        <import type="android.view.View" />
         <variable
             name="vm"
             type="com.janob.epitome.presentation.ui.main.detail.DetailViewModel" />
@@ -11,13 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20dp">
+        android:layout_marginHorizontal="20dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
+            android:padding="10dp"
+            android:layout_marginStart="-10dp"
             android:layout_marginTop="40dp"
             android:src="@drawable/ic_back"
             android:background="@color/transparent"
@@ -25,17 +27,136 @@
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{()->vm.navigateToBack()}"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
-            style="@style/TextRegularSemiBold"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/album_cover_cd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rect_blackfill_nostroke_100radius"
-            android:text="노래 정보 및 노래 재생 화면"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardElevation="10dp"
+            android:background="@null">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/album_img_cd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/item_songcover_coverimg_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/albumcover_5"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/album_img_gradient_iv"
+                android:layout_width="match_parent"
+                android:layout_height="167dp"
+                android:elevation="10dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/album_gradient"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="12.6dp"
+                android:layout_marginEnd="12.6dp"
+                android:elevation="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_songcover_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@{vm.title}"
+                    style="@style/Title1"
+                    android:lineSpacingExtra="18sp"/>
+
+                <TextView
+                    android:id="@+id/item_songcover_singer_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/item_songcover_title_tv"
+                    app:layout_constraintStart_toStartOf="@id/item_songcover_title_tv"
+                    android:text="@{vm.singer}"
+                    style="@style/TextRegularSemiBold"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="18sp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <SeekBar
+            android:id="@+id/song_progress_sb"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@null"
+            android:progress="@{vm.progress}"
+            android:progressBackgroundTint="@color/gray_color"
+            android:progressTint="@color/select_color"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:thumb="@color/transparent"
+            android:max="100000"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/album_cover_cd"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+        <TextView
+            android:id="@+id/song_starttime_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.currentTime}"
+            android:textColor="@color/select_color"
+            app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
+            app:layout_constraintStart_toStartOf="@id/song_progress_sb"/>
+        <TextView
+            android:id="@+id/song_endtime_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:30"
+            app:layout_constraintTop_toTopOf="@+id/song_starttime_tv"
+            app:layout_constraintEnd_toEndOf="@id/song_progress_sb"/>
+
+        <ImageView
+            android:id="@+id/song_play_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_miniplayer_play"
+            android:layout_marginBottom="40dp"
+            android:visibility="@{vm.isPlaying? View.GONE : View.VISIBLE}"
+            android:onClick="@{()->vm.onClickPlay()}"/>
+        <ImageView
+            android:id="@+id/song_pause_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_miniplayer_pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="40dp"
+            android:visibility="@{vm.isPlaying? View.VISIBLE : View.GONE}"
+            android:onClick="@{()->vm.onClickPlay()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

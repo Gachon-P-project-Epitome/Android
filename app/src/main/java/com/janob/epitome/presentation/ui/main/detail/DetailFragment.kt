@@ -24,6 +24,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
     }
 
+//    private fun observeTimerViewModel() {
+//
+//        repeatOnStarted {
+//            viewModel.currentTime.collect { currentTime ->
+//                viewModel.progress.value = currentTime*100000 / 30
+//            }
+//        }
+//    }
+
     private fun initEventObserve() {
         repeatOnStarted {
             viewModel.event.collect {
