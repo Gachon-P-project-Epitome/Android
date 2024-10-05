@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.janob.epitome.BuildConfig
-import com.janob.epitome.data.config.AccessTokenInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,7 +40,7 @@ class NetworkModule {
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
             .addInterceptor(httpLoggingInterceptor)
-            .addNetworkInterceptor(AccessTokenInterceptor())
+//            .addNetworkInterceptor(AccessTokenInterceptor())
             .build()
     }
 }

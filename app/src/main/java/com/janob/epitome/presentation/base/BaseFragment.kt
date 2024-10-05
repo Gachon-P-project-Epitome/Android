@@ -1,4 +1,5 @@
 package com.janob.epitome.presentation.base
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.janob.epitome.presentation.customview.LoadingDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,9 @@ abstract class BaseFragment<B : ViewDataBinding>(
 ) : Fragment() {
     private var _binding: B? = null
     protected val binding get() = _binding!!
+
+    private lateinit var loadingDialog: LoadingDialog
+    private var loadingState = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +37,21 @@ abstract class BaseFragment<B : ViewDataBinding>(
     fun LifecycleOwner.repeatOnStarted(block: suspend CoroutineScope.() -> Unit) {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
+        }
+    }
+
+    fun showLoading(context: Context) {
+        if (!loadingState) {
+            loadingDialog = LoadingDialog(context)
+            loadingDialog.show()
+            loadingState = true
+        }
+    }
+
+    fun dismissLoading() {
+        if (loadingState) {
+            loadingDialog.dismiss()
+            loadingState = false
         }
     }
     fun showToastMessage(message: String) {
