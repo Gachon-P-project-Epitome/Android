@@ -2,10 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <variable
+            name="pvm"
+            type="com.janob.epitome.presentation.ui.main.MainViewModel" />
+
 
         <variable
             name="vm"
             type="com.janob.epitome.presentation.ui.main.home.HomeViewModel" />
+
+        <variable
+            name="frag"
+            type="com.janob.epitome.presentation.ui.main.home.HomeFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,12 +22,12 @@
         android:paddingHorizontal="20dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_imput_music"
             style="@style/TextRegularSemiBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rect_blackfill_nostroke_100radius"
-            android:onClick="@{()->vm.navigateToResult()}"
+            android:onClick="@{()->vm.onClickInputMusic()}"
             android:text="홈화면(노래를 입력하는 화면)"
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"

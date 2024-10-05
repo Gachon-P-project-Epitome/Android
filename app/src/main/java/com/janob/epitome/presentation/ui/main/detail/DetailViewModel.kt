@@ -50,7 +50,6 @@ class DetailViewModel @Inject constructor() : ViewModel()  {
     private var mediaPlayer: MediaPlayer? = null
     private var isTimerRunning = false
     private var currentPosition: Int = 0 // 현재 재생 위치를 저장할 변수
-//    fun onClickPlay(url: String){
 
     fun onClickPlay(){
         if(_isPlaying.value){

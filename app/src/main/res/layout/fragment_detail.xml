@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
 
         <import type="android.view.View" />
@@ -27,11 +28,21 @@
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{()->vm.navigateToBack()}"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_back"
+            app:layout_constraintBottom_toBottomOf="@id/btn_back"
+            android:text="EPITOME"
+            style="@style/Title2"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/album_cover_cd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintTop_toBottomOf="@id/btn_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +93,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="@{vm.title}"
+                    tools:text="Title"
                     style="@style/Title1"
                     android:lineSpacingExtra="18sp"/>
 
@@ -92,6 +104,7 @@
                     app:layout_constraintTop_toBottomOf="@id/item_songcover_title_tv"
                     app:layout_constraintStart_toStartOf="@id/item_songcover_title_tv"
                     android:text="@{vm.singer}"
+                    tools:text="singer"
                     style="@style/TextRegularSemiBold"
                     android:textSize="20sp"
                     android:lineSpacingExtra="18sp"/>
@@ -112,11 +125,10 @@
             android:paddingEnd="0dp"
             android:thumb="@color/transparent"
             android:max="100000"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/album_cover_cd"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="60dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"/>
         <TextView
@@ -124,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{vm.currentTime}"
+            tools:text="00:00"
             android:textColor="@color/select_color"
             app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
             app:layout_constraintStart_toStartOf="@id/song_progress_sb"/>
@@ -143,7 +156,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_miniplayer_play"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="60dp"
             android:visibility="@{vm.isPlaying? View.GONE : View.VISIBLE}"
             android:onClick="@{()->vm.onClickPlay()}"/>
         <ImageView
@@ -154,7 +167,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="60dp"
             android:visibility="@{vm.isPlaying? View.VISIBLE : View.GONE}"
             android:onClick="@{()->vm.onClickPlay()}"/>
 
