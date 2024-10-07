@@ -1,11 +1,9 @@
 package com.janob.epitome.presentation.ui.main.detail
 
 import android.media.MediaPlayer
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.janob.epitome.data.model.response.ResultSong
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,21 +33,37 @@ class DetailViewModel @Inject constructor() : ViewModel()  {
     private val _isPlaying = MutableStateFlow<Boolean>(false)
     val isPlaying: StateFlow<Boolean> get() = _isPlaying
 
-    var title: MutableStateFlow<String> = MutableStateFlow("Title")
-    var singer: MutableStateFlow<String> = MutableStateFlow("Singer")
-    var albumTitle: MutableStateFlow<String> = MutableStateFlow("AlbumTitle")
+    private val _title = MutableStateFlow("Title")
+    val title: StateFlow<String> = _title.asStateFlow()
+
+    private val _singer = MutableStateFlow("Singer")
+    val singer: StateFlow<String> = _singer.asStateFlow()
+
+    private val _albumImg = MutableStateFlow("")
+    val albumImg: StateFlow<String> = _albumImg.asStateFlow()
+
+    private val _albumTitle = MutableStateFlow("AlbumTitle")
+    val albumTitle: StateFlow<String> = _albumTitle.asStateFlow()
+
     var progress: MutableStateFlow<Int> = MutableStateFlow(0)
 
     private val _currentTime = MutableStateFlow<String>("00:00")
     val currentTime: StateFlow<String> get() = _currentTime
 
-    private val _url = MutableStateFlow<String>("https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0")
+    private val _url = MutableStateFlow<String>("")
     val url: StateFlow<String> get() = _url
 
     private var job: Job? = null
     private var mediaPlayer: MediaPlayer? = null
     private var isTimerRunning = false
     private var currentPosition: Int = 0 // 현재 재생 위치를 저장할 변수
+
+    fun getResultSong(song: ResultSong){
+        _title.value = song.title
+        _singer.value = song.singer
+        _albumImg.value = song.albumImg
+        _url.value = song.url
+    }
 
     fun onClickPlay(){
         if(_isPlaying.value){

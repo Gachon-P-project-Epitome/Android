@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.janob.epitome.R
+import com.janob.epitome.data.model.response.ResultSong
 import com.janob.epitome.databinding.FragmentResultBinding
 import com.janob.epitome.presentation.base.BaseFragment
 import com.janob.epitome.presentation.ui.main.MainViewModel
@@ -38,7 +39,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         observeRvViewModel()
 
         initResultSongs()
-
+        setResultOnClick()
     }
 
     private fun observeRvViewModel() {
@@ -55,12 +56,21 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         }
     }
 
+    private fun setResultOnClick() {
+        // 결과 클릭 리스너
+        resultAdapter.setMyItemClickListener(object : MyItemClickListener {
+            override fun onItemClick(index: Int) {
+                // DetailFragment로 index 값을 전달
+                findNavController().toDetail(index)
+            }
+        })
+    }
+
     private fun initEventObserve() {
         repeatOnStarted {
             viewModel.event.collect {
                 when (it) {
                     is ResultEvent.NavigateToBack -> findNavController().navigateUp()
-                    is ResultEvent.NavigateToDetail -> findNavController().toDetail()
                     is ResultEvent.ShowLoading -> showLoading(requireContext())
                     is ResultEvent.DismissLoading -> dismissLoading()
                 }
@@ -68,8 +78,8 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         }
     }
 
-    private fun NavController.toDetail() {
-        var action = ResultFragmentDirections.actionResultFragmentToDetailFragment()
+    private fun NavController.toDetail(index: Int) {
+        var action = ResultFragmentDirections.actionResultFragmentToDetailFragment(index)
         navigate(action)
     }
 }
