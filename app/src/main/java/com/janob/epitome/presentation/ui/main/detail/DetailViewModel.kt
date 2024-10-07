@@ -59,10 +59,10 @@ class DetailViewModel @Inject constructor() : ViewModel()  {
     private var currentPosition: Int = 0 // 현재 재생 위치를 저장할 변수
 
     fun getResultSong(song: ResultSong){
-        _title.value = song.title
-        _singer.value = song.singer
-        _albumImg.value = song.albumImg
-        _url.value = song.url
+        _title.value = song.name
+        _singer.value = song.artistName
+        _albumImg.value = song.albumImgUrl
+        _url.value = song.previewUrl
     }
 
     fun onClickPlay(){

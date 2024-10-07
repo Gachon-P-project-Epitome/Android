@@ -57,7 +57,7 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
 
             // Glide를 사용하여 이미지 로드
             Glide.with(binding.root.context)
-                .load(result.albumImg) // URL을 사용하여 이미지 로드
+                .load(result.albumImgUrl) // URL을 사용하여 이미지 로드
                 .error(R.drawable.ic_profile) // 에러 발생 시 표시할 이미지 (선택 사항)
                 .into(binding.itemTapeAlbumcoverImgIv) // ImageView에 로드
 
