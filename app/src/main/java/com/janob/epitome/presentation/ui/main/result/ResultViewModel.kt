@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 sealed class ResultEvent {
     data object NavigateToBack : ResultEvent()
-    data object NavigateToDetail : ResultEvent()
     data object ShowLoading : ResultEvent()
     data object DismissLoading : ResultEvent()
 }
@@ -49,12 +48,6 @@ class ResultViewModel @Inject constructor() : ViewModel()  {
     fun navigateToBack() {
         viewModelScope.launch {
             _event.emit(ResultEvent.NavigateToBack)
-        }
-    }
-
-    fun navigateToDetail() {
-        viewModelScope.launch {
-            _event.emit(ResultEvent.NavigateToDetail)
         }
     }
 }

@@ -46,23 +46,29 @@ class MainViewModel @Inject constructor(
 
     private val songList: List<ResultSong> = listOf(
         ResultSong(
-            title = "너랑 나",
-            singer = "IU",
-            url = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            albumImg = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9"
+            name = "너랑 나",
+            artistName = "IU",
+            album = "너랑 나 앨범 명",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 84.5
         ),
         ResultSong(
-            title = "Song Two",
-            singer = "Singer Two",
-            url = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            albumImg = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9"
+            name = "Song Two",
+            artistName = "Singer Two",
+            album = "너랑 나 앨범 명2",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 80.5
         ),
         ResultSong(
-            title = "Song Three",
-            singer = "Singer Three",
-            url = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            albumImg = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9"
-        )
+            name = "Song Three",
+            artistName = "Singer Three",
+            album = "너랑 나 앨범 명3",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 72.5
+        ),
     )
 
     fun goToSetInputMusic() {
@@ -102,9 +108,6 @@ class MainViewModel @Inject constructor(
             _event.emit(MainEvent.ShowLoading)
             setResultList(songList)
 //            try {
-//                // 로딩 띄우기
-//                _event.emit(MainEvent.ShowLoading)
-//
 //                val file = File(musicPath)
 //                // File을 MultipartBody.Part로 변환
 //                val multipartFile = createPartFromFile(file)

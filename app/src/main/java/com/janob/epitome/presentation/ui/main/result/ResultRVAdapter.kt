@@ -12,7 +12,7 @@ import com.janob.epitome.databinding.ItemResultBinding
 
 interface MyItemClickListener {
     // 노래 상세보기
-    fun onItemClick(song: ResultSong)
+    fun onItemClick(index: Int)
 }
 class ResultRVAdapter(private var results: List<ResultSong>) :
     RecyclerView.Adapter<ResultRVAdapter.ResultViewHolder>() {
@@ -35,7 +35,7 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
         val result = results[position]
 
         holder.itemView.setOnClickListener {
-            mItemClickListener.onItemClick(result)
+            mItemClickListener.onItemClick(position)
 
             // 해당 아이템만 갱신
             notifyItemChanged(position)
@@ -57,7 +57,7 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
 
             // Glide를 사용하여 이미지 로드
             Glide.with(binding.root.context)
-                .load(result.albumImg) // URL을 사용하여 이미지 로드
+                .load(result.albumImgUrl) // URL을 사용하여 이미지 로드
                 .error(R.drawable.ic_profile) // 에러 발생 시 표시할 이미지 (선택 사항)
                 .into(binding.itemTapeAlbumcoverImgIv) // ImageView에 로드
 

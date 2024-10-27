@@ -8,8 +8,10 @@ data class ResultResponse(
 )
 
 data class ResultSong(
-    val title : String,
-    val singer : String,
-    val url : String,
-    val albumImg : String,
+    val name : String,
+    val artistName : String,
+    val album : String,
+    val albumImgUrl : String,
+    val previewUrl : String,
+    val similarity : Double
 )
