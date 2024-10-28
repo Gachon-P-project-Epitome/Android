@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:background="@color/main">
 
 
         <androidx.cardview.widget.CardView
@@ -73,7 +74,7 @@
             app:layout_constraintStart_toStartOf="@id/item_tape_tapetitle_tv"
             app:progressView_animation="normal"
             app:progressView_autoAnimate="true"
-            app:progressView_colorBackground="@color/gray_color"
+            app:progressView_colorBackground="@color/gray_color2"
             app:progressView_colorProgress="@color/select_color"
             app:progressView_labelSize="10sp"
             app:progressView_labelSpace="10dp"
@@ -81,7 +82,8 @@
             app:progressView_max="100"
             app:progressView_min="0"
             app:progressView_padding="1dp"
-            app:progressView_radius="100dp"/>
+            app:progressView_radius="100dp"
+            android:layout_marginBottom="2dp"/>
 
 
 
