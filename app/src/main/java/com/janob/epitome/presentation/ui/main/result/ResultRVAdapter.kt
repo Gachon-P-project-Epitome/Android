@@ -61,6 +61,9 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
                 .error(R.drawable.ic_profile) // 에러 발생 시 표시할 이미지 (선택 사항)
                 .into(binding.itemTapeAlbumcoverImgIv) // ImageView에 로드
 
+            binding.itemSimilarity.progress = result.similarity.toFloat()
+            binding.itemSimilarity.labelText = "유사도: "+result.similarity.toFloat()+"%"
+
             binding.executePendingBindings() // 즉시 데이터 바인딩 업데이트
         }
     }

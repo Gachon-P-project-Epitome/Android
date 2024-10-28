@@ -1,5 +1,6 @@
 package com.janob.epitome.presentation.ui.main.home
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels()
     private val parentViewModel: MainViewModel by activityViewModels()
+    private var animator: ObjectAnimator? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,13 +47,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             viewModel.event.collect {
                 when (it) {
                     is HomeEvent.NavigateToResult -> findNavController().toResult()
-                    HomeEvent.StartRecoding -> parentViewModel.goToSetInputMusic()
-                    HomeEvent.StopRecoding -> parentViewModel.stopGetMusic()
+                    HomeEvent.StartRecoding -> {
+                        startRotation()
+                        parentViewModel.goToSetInputMusic()
+                    }
+                    HomeEvent.StopRecoding -> {
+                        stopRotation()
+                        parentViewModel.stopGetMusic()
+                    }
                 }
             }
         }
     }
 
+    private fun startRotation() {
+        animator = ObjectAnimator.ofFloat(binding.btnImputMusic, "rotation", 0f, 360f)
+        animator?.duration = 8000 // 10초 동안 회전
+        animator?.repeatCount = ObjectAnimator.INFINITE // 무한 반복
+        animator?.start()
+    }
+
+    private fun stopRotation() {
+        animator?.cancel() // 회전 애니메이션 중지
+//        binding.btnImputMusic.rotation = 0f // 초기 위치로 리셋 (원하는 경우)
+    }
     private fun NavController.toResult() {
         var action = HomeFragmentDirections.actionHomeFragmentToResultFragment()
         navigate(action)
