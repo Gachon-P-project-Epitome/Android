@@ -92,4 +92,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     // ViewPager
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    //progressbar
+    implementation("com.github.skydoves:progressview:1.1.3")
 }
