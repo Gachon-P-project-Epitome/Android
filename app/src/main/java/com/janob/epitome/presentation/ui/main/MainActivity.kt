@@ -53,6 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     MainEvent.DismissLoading -> dismissLoading()
                     MainEvent.ShowLoading -> showLoading(this@MainActivity)
                     is MainEvent.ShowToastMessage -> showToastMessage(event.msg)
+                    else -> {}
                 }
             }
         }
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             start()
         }
         isRecording = true
-        showToastMessage("노래를 들려주세요")
+//        showToastMessage("노래를 들려주세요")
     }
 
     private fun stopRecording() {
@@ -78,7 +79,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 release()
             }
             isRecording = false
-            showToastMessage("녹음 중지")
+//            showToastMessage("녹음 중지")
 
             // 비동기 처리
             lifecycleScope.launch {

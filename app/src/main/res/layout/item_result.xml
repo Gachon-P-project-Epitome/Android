@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        android:background="@color/main">
+        android:background="@color/white">
 
 
         <androidx.cardview.widget.CardView
@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@{result.name}"
             tools:text="Broken Melodies"
+            android:fontFamily="@font/hanbit"
             android:textStyle="bold"
             android:textSize="16dp"
             android:textColor="@color/black"
@@ -57,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{result.artistName}"
+            android:fontFamily="@font/hanbit"
             tools:text="NCT DREAM"
             android:textSize="11.5sp"
             android:textStyle="bold"
@@ -69,15 +71,15 @@
         <com.skydoves.progressview.ProgressView
             android:id="@+id/item_similarity"
             android:layout_width="240dp"
-            android:layout_height="20dp"
+            android:layout_height="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/item_tape_tapetitle_tv"
             app:progressView_animation="normal"
             app:progressView_autoAnimate="true"
             app:progressView_colorBackground="@color/gray_color2"
-            app:progressView_colorProgress="@color/select_color"
-            app:progressView_labelSize="10sp"
-            app:progressView_labelSpace="10dp"
+            app:progressView_colorProgress="@color/main2"
+            app:progressView_labelSize="12sp"
+            app:progressView_labelSpace="12dp"
             app:progressView_labelTypeface="bold"
             app:progressView_max="100"
             app:progressView_min="0"

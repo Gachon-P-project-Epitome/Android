@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(
             album = "너랑 나 앨범 명",
             albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
             previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            similarity = 84.5
+            similarity = 100.0
         ),
         ResultSong(
             name = "Song Two",
@@ -68,6 +68,30 @@ class MainViewModel @Inject constructor(
             albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
             previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
             similarity = 72.5
+        ),
+        ResultSong(
+            name = "너랑 나",
+            artistName = "IU",
+            album = "너랑 나 앨범 명",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 70.5
+        ),
+        ResultSong(
+            name = "Song Two",
+            artistName = "Singer Two",
+            album = "너랑 나 앨범 명2",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 60.2
+        ),
+        ResultSong(
+            name = "Song Three",
+            artistName = "Singer Three",
+            album = "너랑 나 앨범 명3",
+            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
+            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
+            similarity = 50.3
         ),
     )
 

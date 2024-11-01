@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.janob.epitome.R
 import com.janob.epitome.databinding.FragmentHomeBinding
 import com.janob.epitome.presentation.base.BaseFragment
+import com.janob.epitome.presentation.ui.main.MainEvent
 import com.janob.epitome.presentation.ui.main.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,6 +39,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             Log.d("HomeFragment : getResult", "parentViewModel.resultList.value = $songs")
             if (songs.isNotEmpty()){
                 findNavController().toResult()
+            } else {
+                isEmptyResult()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope) // Flow를 관찰
     }
@@ -48,8 +51,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 when (it) {
                     is HomeEvent.NavigateToResult -> findNavController().toResult()
                     HomeEvent.StartRecoding -> {
-                        startRotation()
                         parentViewModel.goToSetInputMusic()
+                        startRotation()
                     }
                     HomeEvent.StopRecoding -> {
                         stopRotation()
@@ -60,16 +63,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
+    private fun isEmptyResult(){
+        // todo: 검색결과가 없으니 다시 검색하라는 다이얼로그 띄우기
+        parentViewModel.dismissLoading()
+    }
+
     private fun startRotation() {
         animator = ObjectAnimator.ofFloat(binding.btnImputMusic, "rotation", 0f, 360f)
-        animator?.duration = 8000 // 10초 동안 회전
+        animator?.duration = 4000
         animator?.repeatCount = ObjectAnimator.INFINITE // 무한 반복
         animator?.start()
     }
 
     private fun stopRotation() {
         animator?.cancel() // 회전 애니메이션 중지
-//        binding.btnImputMusic.rotation = 0f // 초기 위치로 리셋 (원하는 경우)
+        binding.btnImputMusic.rotation = 0f // 초기 위치로 리셋 (원하는 경우)
     }
     private fun NavController.toResult() {
         var action = HomeFragmentDirections.actionHomeFragmentToResultFragment()
