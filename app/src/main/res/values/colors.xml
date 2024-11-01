@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="main">#cddfe3</color>
+    <color name="main2">#03888E</color>
 
 
     <color name="select_color">#00897B</color>

@@ -17,8 +17,6 @@ import javax.inject.Inject
 
 sealed class ResultEvent {
     data object NavigateToBack : ResultEvent()
-    data object ShowLoading : ResultEvent()
-    data object DismissLoading : ResultEvent()
 }
 
 @HiltViewModel
@@ -31,17 +29,8 @@ class ResultViewModel @Inject constructor() : ViewModel()  {
     private val _resultSongs = MutableStateFlow<List<ResultSong>>(emptyList())
     val resultSongs: StateFlow<List<ResultSong>> = _resultSongs.asStateFlow()
 
-    private val _isEmpty = MutableStateFlow(true)
-    val isEmpty: StateFlow<Boolean> = _isEmpty.asStateFlow()
-
-
-
-
-    fun checkResultsIsEmpty() {
-        _isEmpty.value = _resultSongs.value.isEmpty()
-    }
-
     fun setResultSongs(songs: List<ResultSong>) {
+        Log.d("ResultViewModel", "setResultSongs")
             _resultSongs.value = songs
     }
 

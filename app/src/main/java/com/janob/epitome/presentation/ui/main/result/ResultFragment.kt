@@ -44,15 +44,16 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
 
     private fun observeRvViewModel() {
         viewModel.resultSongs.onEach { results ->
+            Log.d("ResultFragment", "observeRvViewModel ${results}")
             resultAdapter.updateResults(results) // 새로운 결과로 어댑터 업데이트
             parentViewModel.dismissLoading()
-            viewModel.checkResultsIsEmpty()
         }.launchIn(viewLifecycleOwner.lifecycleScope) // Flow를 관찰
     }
 
     private fun initResultSongs() {
         repeatOnStarted {
             viewModel.setResultSongs(parentViewModel.resultList.value)
+            Log.d("ResultFragment", "initResultSongs ${parentViewModel.resultList.value}")
         }
     }
 
@@ -71,8 +72,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
             viewModel.event.collect {
                 when (it) {
                     is ResultEvent.NavigateToBack -> findNavController().navigateUp()
-                    is ResultEvent.ShowLoading -> showLoading(requireContext())
-                    is ResultEvent.DismissLoading -> dismissLoading()
                 }
             }
         }

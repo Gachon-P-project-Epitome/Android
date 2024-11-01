@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp"
-        android:background="@color/main">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/btn_imput_music"
@@ -33,28 +33,36 @@
             android:onClick="@{()->vm.onClickInputMusic()}"
             android:src="@drawable/logo_epitome_150"/>
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/hand_bold"
-            android:text="한번 누르면 녹음 시작"
-            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_imput_music"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="15dp"/>
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/hand_bold"
-            android:text="다시 누르면 녹음 중지 후 검색"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/text1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hanbit"
+                android:textStyle="bold"
+                android:text="한번 누르면 녹음 시작"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hanbit"
+                android:textStyle="bold"
+                android:text="다시 누르면 녹음 중지 후 검색"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
