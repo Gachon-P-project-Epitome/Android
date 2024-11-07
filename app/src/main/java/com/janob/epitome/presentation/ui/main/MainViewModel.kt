@@ -41,8 +41,11 @@ class MainViewModel @Inject constructor(
     private val _inputMusic = MutableSharedFlow<String>()
     val inputMusic: SharedFlow<String> = _inputMusic.asSharedFlow()
 
-    private val _resultList = MutableStateFlow<List<ResultSong>>(emptyList())
-    val resultList: StateFlow<List<ResultSong>> = _resultList.asStateFlow()
+    private val _resultList = MutableSharedFlow<List<ResultSong>>()
+    val resultList: SharedFlow<List<ResultSong>> = _resultList.asSharedFlow()
+
+    private val _resultListState = MutableStateFlow<List<ResultSong>>(emptyList())
+    val resultListState: StateFlow<List<ResultSong>> = _resultListState.asStateFlow()
 
     private val songList: List<ResultSong> = listOf(
         ResultSong(
@@ -77,22 +80,6 @@ class MainViewModel @Inject constructor(
             previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
             similarity = 70.5
         ),
-        ResultSong(
-            name = "Song Two",
-            artistName = "Singer Two",
-            album = "너랑 나 앨범 명2",
-            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            similarity = 60.2
-        ),
-        ResultSong(
-            name = "Song Three",
-            artistName = "Singer Three",
-            album = "너랑 나 앨범 명3",
-            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-            similarity = 50.3
-        ),
     )
 
     fun goToSetInputMusic() {
@@ -117,6 +104,7 @@ class MainViewModel @Inject constructor(
     private fun setResultList(results: List<ResultSong>) {
         viewModelScope.launch {
             _resultList.emit(results)
+            _resultListState.value = results
         }
     }
     private fun createPartFromFile(file: File): MultipartBody.Part {
@@ -154,6 +142,12 @@ class MainViewModel @Inject constructor(
 //            }
         }
     }
+
+    //결과리스트 삭제 (Result->Home)
+    fun deleteResultSongs(){
+        _resultListState.value = emptyList()
+    }
+
 
     fun dismissLoading() {
         viewModelScope.launch {

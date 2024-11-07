@@ -70,7 +70,7 @@
         
         <com.skydoves.progressview.ProgressView
             android:id="@+id/item_similarity"
-            android:layout_width="240dp"
+            android:layout_width="220dp"
             android:layout_height="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/item_tape_tapetitle_tv"
