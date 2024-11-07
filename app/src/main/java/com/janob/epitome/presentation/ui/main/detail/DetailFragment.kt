@@ -29,7 +29,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         arguments?.let {
             index = it.getInt("index") // index 값 받기
         }
-        viewModel.getResultSong(parentViewModel.resultList.value[index])
+        viewModel.getResultSong(parentViewModel.resultListState.value[index])
         observeViewModel()
     }
 

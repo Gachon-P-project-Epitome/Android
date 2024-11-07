@@ -13,12 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.janob.epitome.R
 import com.janob.epitome.databinding.FragmentHomeBinding
 import com.janob.epitome.presentation.base.BaseFragment
+import com.janob.epitome.presentation.customview.ConfirmDialog
+import com.janob.epitome.presentation.customview.ConfirmDialogInterface
 import com.janob.epitome.presentation.ui.main.MainEvent
 import com.janob.epitome.presentation.ui.main.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
+    ConfirmDialogInterface {
 
     private val viewModel: HomeViewModel by viewModels()
     private val parentViewModel: MainViewModel by activityViewModels()
@@ -58,14 +61,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         stopRotation()
                         parentViewModel.stopGetMusic()
                     }
+
+                    else -> {}
                 }
             }
         }
-    }
-
-    private fun isEmptyResult(){
-        // todo: 검색결과가 없으니 다시 검색하라는 다이얼로그 띄우기
-        parentViewModel.dismissLoading()
     }
 
     private fun startRotation() {
@@ -82,5 +82,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun NavController.toResult() {
         var action = HomeFragmentDirections.actionHomeFragmentToResultFragment()
         navigate(action)
+    }
+
+    private fun isEmptyResult(){
+        // 검색결과가 없으니 다시 검색하라는 다이얼로그 띄우기
+        parentViewModel.dismissLoading()
+
+        // 다이얼로그
+        val title = "검색 결과 없음"
+        val content = "유사한 곡을 찾지 못했으니, 다시 검색해주세요."
+        val dialog = ConfirmDialog(this@HomeFragment, title, content, 0)
+        // 알림창이 띄워져있는 동안 배경 클릭 막기
+        dialog.isCancelable = false
+        activity?.let { dialog.show(it.supportFragmentManager, "ConfirmDialog") }
+    }
+
+    override fun onClickYesButton(id: Int) {
     }
 }

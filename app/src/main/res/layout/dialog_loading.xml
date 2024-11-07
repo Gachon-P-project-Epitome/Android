@@ -11,7 +11,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/black"
+            android:indeterminateTint="@color/gray_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="로딩중 ..."
+            android:textColor="@color/gray_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressBar" />
