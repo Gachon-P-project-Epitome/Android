@@ -8,5 +8,5 @@ interface MainRepository {
 
     suspend fun postInputMusic(
         music: MultipartBody.Part
-    ): BaseState<ResultResponse>
+    ): BaseState<List<ResultResponse>>
 }

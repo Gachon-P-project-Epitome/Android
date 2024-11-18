@@ -3,6 +3,7 @@ package com.janob.epitome.presentation.ui.main.result
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.janob.epitome.R
-import com.janob.epitome.data.model.response.ResultSong
 import com.janob.epitome.databinding.FragmentResultBinding
 import com.janob.epitome.presentation.base.BaseFragment
 import com.janob.epitome.presentation.customview.ConfirmDialog
@@ -43,6 +43,11 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
 
         initResultSongs()
         setResultOnClick()
+
+//        // 뒤로가기 버튼 클릭 이벤트 처리
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+//            toResearch()
+//        }
     }
 
     private fun observeRvViewModel() {
@@ -86,6 +91,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
         var action = ResultFragmentDirections.actionResultFragmentToDetailFragment(index)
         navigate(action)
     }
+
 
     private fun toResearch(){
         // 재검색하러 가기 다이얼로그

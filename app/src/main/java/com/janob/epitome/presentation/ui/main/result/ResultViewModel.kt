@@ -3,7 +3,7 @@ package com.janob.epitome.presentation.ui.main.result
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.janob.epitome.data.model.response.ResultSong
+import com.janob.epitome.data.model.response.ResultResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,10 +26,10 @@ class ResultViewModel @Inject constructor() : ViewModel()  {
     private val _event = MutableSharedFlow<ResultEvent>()
     val event: SharedFlow<ResultEvent> = _event.asSharedFlow()
 
-    private val _resultSongs = MutableStateFlow<List<ResultSong>>(emptyList())
-    val resultSongs: StateFlow<List<ResultSong>> = _resultSongs.asStateFlow()
+    private val _resultSongs = MutableStateFlow<List<ResultResponse>>(emptyList())
+    val resultSongs: StateFlow<List<ResultResponse>> = _resultSongs.asStateFlow()
 
-    fun setResultSongs(songs: List<ResultSong>) {
+    fun setResultSongs(songs: List<ResultResponse>) {
         Log.d("ResultViewModel", "setResultSongs")
             _resultSongs.value = songs
     }

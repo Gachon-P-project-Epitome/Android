@@ -29,7 +29,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initEventObserve()
 
         // 파일 경로 설정
-        filePath = "${externalCacheDir?.absolutePath}/recorded_audio.mp3"
+        filePath = "${externalCacheDir?.absolutePath}/recorded_audio.mp4"
     }
 
     private fun initEventObserve() {

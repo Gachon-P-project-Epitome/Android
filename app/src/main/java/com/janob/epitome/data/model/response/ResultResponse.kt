@@ -1,17 +1,18 @@
 package com.janob.epitome.data.model.response
 
-data class ResultResponse(
-    val isSuccess: Boolean,
-    val code: String,
-    val message: String,
-    val result: List<ResultSong>
-)
+//data class ResultResponse(
+//    val isSuccess: Boolean,
+//    val code: String,
+//    val message: String,
+//    val result: List<ResultSong>
+//)
 
-data class ResultSong(
+data class ResultResponse(
     val name : String,
-    val artistName : String,
+    val artist : String,
     val album : String,
-    val albumImgUrl : String,
+    val albumImageUrl : String,
     val previewUrl : String,
-    val similarity : Double
+    val similarity : Double,
+    val id : String,
 )
