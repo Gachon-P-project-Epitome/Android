@@ -1,12 +1,13 @@
 package com.janob.epitome.presentation.ui.main.result
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.janob.epitome.R
-import com.janob.epitome.data.model.response.ResultSong
+import com.janob.epitome.data.model.response.ResultResponse
 import com.janob.epitome.databinding.ItemResultBinding
 
 
@@ -14,7 +15,7 @@ interface MyItemClickListener {
     // 노래 상세보기
     fun onItemClick(index: Int)
 }
-class ResultRVAdapter(private var results: List<ResultSong>) :
+class ResultRVAdapter(private var results: List<ResultResponse>) :
     RecyclerView.Adapter<ResultRVAdapter.ResultViewHolder>() {
 
     private lateinit var mItemClickListener: MyItemClickListener //아래 받은 것을 내부에서 사용하기 위해 선언
@@ -42,7 +43,7 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
         }
     }
 
-    fun updateResults(newSongs: List<ResultSong>) {
+    fun updateResults(newSongs: List<ResultResponse>) {
         results = newSongs
         notifyDataSetChanged() // 데이터 변경 알리기
     }
@@ -51,18 +52,21 @@ class ResultRVAdapter(private var results: List<ResultSong>) :
 
     inner class ResultViewHolder(private val binding: ItemResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: ResultSong) {
+        fun bind(result: ResultResponse) {
+
+            Log.d("result", result.toString())
 
             binding.result = result
 
             // Glide를 사용하여 이미지 로드
             Glide.with(binding.root.context)
-                .load(result.albumImgUrl) // URL을 사용하여 이미지 로드
+                .load(result.albumImageUrl) // URL을 사용하여 이미지 로드
                 .error(R.drawable.ic_profile) // 에러 발생 시 표시할 이미지 (선택 사항)
                 .into(binding.itemTapeAlbumcoverImgIv) // ImageView에 로드
+            var similarity = String.format("%.3f", result.similarity*100).toFloat()
 
-            binding.itemSimilarity.progress = result.similarity.toFloat()
-            binding.itemSimilarity.labelText = "유사도: "+result.similarity.toFloat()+"%"
+            binding.itemSimilarity.progress = similarity
+            binding.itemSimilarity.labelText = "유사도: $similarity%"
 
             binding.executePendingBindings() // 즉시 데이터 바인딩 업데이트
         }

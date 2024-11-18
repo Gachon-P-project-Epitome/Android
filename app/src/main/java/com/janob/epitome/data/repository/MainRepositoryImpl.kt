@@ -8,6 +8,6 @@ import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(private val api: MainApi) : MainRepository {
-    override suspend fun postInputMusic(music: MultipartBody.Part): BaseState<ResultResponse> =
+    override suspend fun postInputMusic(music: MultipartBody.Part): BaseState<List<ResultResponse>> =
         runRemote { api.inputMusic(music) }
 }

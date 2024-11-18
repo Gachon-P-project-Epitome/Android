@@ -7,7 +7,7 @@
 
         <variable
             name="result"
-            type="com.janob.epitome.data.model.response.ResultSong" />
+            type="com.janob.epitome.data.model.response.ResultResponse" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:id="@+id/item_tape_singer_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{result.artistName}"
+            android:text="@{result.artist}"
             android:fontFamily="@font/hanbit"
             tools:text="NCT DREAM"
             android:textSize="11.5sp"
@@ -86,8 +86,5 @@
             app:progressView_padding="1dp"
             app:progressView_radius="100dp"
             android:layout_marginBottom="2dp"/>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

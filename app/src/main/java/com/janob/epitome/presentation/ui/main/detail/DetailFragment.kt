@@ -33,15 +33,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         observeViewModel()
     }
 
-//    private fun observeTimerViewModel() {
-//
-//        repeatOnStarted {
-//            viewModel.currentTime.collect { currentTime ->
-//                viewModel.progress.value = currentTime*100000 / 30
-//            }
-//        }
-//    }
-
     private fun observeViewModel() {
         // 프로필 이미지 관찰
         repeatOnStarted {

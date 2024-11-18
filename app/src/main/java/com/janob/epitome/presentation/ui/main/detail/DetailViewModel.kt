@@ -3,7 +3,7 @@ package com.janob.epitome.presentation.ui.main.detail
 import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.janob.epitome.data.model.response.ResultSong
+import com.janob.epitome.data.model.response.ResultResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,10 +58,10 @@ class DetailViewModel @Inject constructor() : ViewModel()  {
     private var isTimerRunning = false
     private var currentPosition: Int = 0 // 현재 재생 위치를 저장할 변수
 
-    fun getResultSong(song: ResultSong){
+    fun getResultSong(song: ResultResponse){
         _title.value = song.name
-        _singer.value = song.artistName
-        _albumImg.value = song.albumImgUrl
+        _singer.value = song.artist
+        _albumImg.value = song.albumImageUrl
         _url.value = song.previewUrl
     }
 

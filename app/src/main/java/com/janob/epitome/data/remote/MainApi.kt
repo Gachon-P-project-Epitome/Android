@@ -16,8 +16,8 @@ interface MainApi {
 //    ): Response<CreateReviewResponse>
 
     @Multipart
-    @POST("record")
+    @POST("upload")
     suspend fun inputMusic(
         @Part music: MultipartBody.Part
-    ): Response<ResultResponse>
+    ): Response<List<ResultResponse>>
 }
