@@ -94,4 +94,7 @@ dependencies {
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
     //progressbar
     implementation("com.github.skydoves:progressview:1.1.3")
+    // mpegToMp3
+    implementation("com.arthenica:mobile-ffmpeg-full:4.4.LTS")
+
 }
