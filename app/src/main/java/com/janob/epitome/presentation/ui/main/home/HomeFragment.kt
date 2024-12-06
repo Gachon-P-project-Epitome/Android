@@ -46,6 +46,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 isEmptyResult()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope) // Flow를 관찰
+        // 녹음 시작 애니메이션 상태 관찰
+        parentViewModel.startAnimation.onEach { ani ->
+            Log.d("HomeFragment : startAnimation", "녹음 애니메이션 시작")
+            if (ani) startRotation() else stopRotation()
+        }.launchIn(viewLifecycleOwner.lifecycleScope) // Flow를 관찰
     }
 
     private fun initEventObserve() {
@@ -55,10 +60,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                     is HomeEvent.NavigateToResult -> findNavController().toResult()
                     HomeEvent.StartRecoding -> {
                         parentViewModel.goToSetInputMusic()
-                        startRotation()
                     }
                     HomeEvent.StopRecoding -> {
-                        stopRotation()
                         parentViewModel.stopGetMusic()
                     }
 

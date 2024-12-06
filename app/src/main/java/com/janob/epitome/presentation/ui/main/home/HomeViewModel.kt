@@ -30,14 +30,6 @@ class HomeViewModel @Inject constructor() : ViewModel()  {
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
 
-
-
-    fun navigateToResult() {
-        viewModelScope.launch {
-            _event.emit(HomeEvent.NavigateToResult)
-        }
-    }
-
     fun onClickInputMusic(){
         viewModelScope.launch {
             if(_isRecording.value){

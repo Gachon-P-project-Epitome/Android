@@ -1,5 +1,6 @@
 package com.janob.epitome.presentation.ui.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.janob.epitome.data.model.BaseState
@@ -45,44 +46,14 @@ class MainViewModel @Inject constructor(
     private val _resultListState = MutableStateFlow<List<ResultResponse>>(emptyList())
     val resultListState: StateFlow<List<ResultResponse>> = _resultListState.asStateFlow()
 
-//    private val songList: List<ResultResponse> = listOf(
-//        ResultResponse(
-//            trackId = "1",
-//            name = "너랑 나",
-//            artistName = "IU",
-//            album = "너랑 나 앨범 명",
-//            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-//            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-//            similarity = 100.0
-//        ),
-//        ResultResponse(
-//            trackId = "1",
-//            name = "Song Two",
-//            artistName = "Singer Two",
-//            album = "너랑 나 앨범 명2",
-//            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-//            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-//            similarity = 80.5
-//        ),
-//        ResultResponse(
-//            trackId = "1",
-//            name = "Song Three",
-//            artistName = "Singer Three",
-//            album = "너랑 나 앨범 명3",
-//            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-//            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-//            similarity = 72.5
-//        ),
-//        ResultResponse(
-//            trackId = "1",
-//            name = "너랑 나",
-//            artistName = "IU",
-//            album = "너랑 나 앨범 명",
-//            albumImgUrl = "https://i.scdn.co/image/ab67616d0000b273bf5f4138ebc9ba3fd6f0cde9",
-//            previewUrl = "https://p.scdn.co/mp3-preview/25cb2b3bdd7c7f0bf594d32215c00ee27645f1b9?cid=345d71b717834eb7a4c0136d98112fe0",
-//            similarity = 70.5
-//        ),
-//    )
+    private val _startAnimation = MutableSharedFlow<Boolean>()
+    val startAnimation: SharedFlow<Boolean> = _startAnimation.asSharedFlow()
+
+    fun controlAnimation(isStart: Boolean) {
+        viewModelScope.launch {
+            _startAnimation.emit(isStart)
+        }
+    }
 
     fun goToSetInputMusic() {
         viewModelScope.launch {
@@ -110,8 +81,8 @@ class MainViewModel @Inject constructor(
         }
     }
     private fun createPartFromFile(file: File): MultipartBody.Part {
-        // 파일의 MIME 타입을 설정합니다.
-        val requestFile = RequestBody.create("audio/mp4".toMediaTypeOrNull(), file)
+        // MP3 파일의 MIME 타입을 설정합니다.
+        val requestFile = RequestBody.create("audio/mpeg".toMediaTypeOrNull(), file)
 
         // MultipartBody.Part를 생성합니다.
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
@@ -119,24 +90,28 @@ class MainViewModel @Inject constructor(
 
     fun getResultAPI(musicPath: String) {
         viewModelScope.launch {
-            _event.emit(MainEvent.ShowLoading)
-//            setResultList(songList)
+//            _event.emit(MainEvent.ShowLoading)
             try {
                 val file = File(musicPath)
-                // File을 MultipartBody.Part로 변환
-                val multipartFile = createPartFromFile(file)
+                if (file.exists()) {
+                    // File을 MultipartBody.Part로 변환
+                    val multipartFile = createPartFromFile(file)
 
-                repository.postInputMusic(multipartFile).let {
-                    when (it) {
-                        is BaseState.Error -> {
-                            _event.emit(MainEvent.ShowToastMessage(it.msg))
-                        }
+                    repository.postInputMusic(multipartFile).let {
+                        when (it) {
+                            is BaseState.Error -> {
+                                _event.emit(MainEvent.DismissLoading)
+                                _event.emit(MainEvent.ShowToastMessage(it.msg))
+                            }
 
-                        is BaseState.Success -> {
-                            // 결과 정보 저장
-                            setResultList(it.body)
+                            is BaseState.Success -> {
+                                // 결과 정보 저장
+                                setResultList(it.body)
+                            }
                         }
                     }
+                } else {
+                    Log.d("getResultAPI", "파일이 존재하지 않습니다.")
                 }
             } catch (e: Exception) {
                 _event.emit(MainEvent.DismissLoading)
