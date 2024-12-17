@@ -75,24 +75,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         viewModel.controlAnimation(isRecording)
     }
 
-//    private fun stopRecording() {
-//        if (isRecording) {
-//            mediaRecorder.apply {
-//                stop()
-//                release()
-//            }
-//            isRecording = false
-////            showToastMessage("녹음 중지")
-//
-//            // 비동기 처리
-//            lifecycleScope.launch {
-//                showLoading(this@MainActivity)
-//                viewModel.setInputMusic(filePath) // 녹음이 완료된 후 파일 경로를 _inputMusic에 저장
-//            }
-//        }
-//    }
-
-
     private fun stopRecording() {
         if (isRecording) {
             mediaRecorder.apply {

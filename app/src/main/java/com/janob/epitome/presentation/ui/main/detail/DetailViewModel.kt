@@ -74,7 +74,7 @@ class DetailViewModel @Inject constructor() : ViewModel()  {
         } else{
             _isPlaying.value = true
             startTimer()
-            startMusic(_url.value)
+            startMusic("http://192.9.200.79:8080"+_url.value)
         }
     }
 

@@ -63,7 +63,7 @@ class ResultRVAdapter(private var results: List<ResultResponse>) :
                 .load(result.albumImageUrl) // URL을 사용하여 이미지 로드
                 .error(R.drawable.ic_profile) // 에러 발생 시 표시할 이미지 (선택 사항)
                 .into(binding.itemTapeAlbumcoverImgIv) // ImageView에 로드
-            var similarity = String.format("%.3f", result.similarity*100).toFloat()
+            var similarity = String.format("%.2f", ((result.similarity+1)/2)*100).toFloat()
 
             binding.itemSimilarity.progress = similarity
             binding.itemSimilarity.labelText = "유사도: $similarity%"

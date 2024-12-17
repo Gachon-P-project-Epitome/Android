@@ -43,11 +43,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
 
         initResultSongs()
         setResultOnClick()
-
-//        // 뒤로가기 버튼 클릭 이벤트 처리
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            toResearch()
-//        }
     }
 
     private fun observeRvViewModel() {
@@ -63,6 +58,9 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
     private fun initResultSongs() {
         repeatOnStarted {
             viewModel.setResultSongs(parentViewModel.resultListState.value)
+            val genre = parentViewModel.resultListState.value.firstOrNull()?.genre
+            genre?.let { setGenreImage(it) }
+            genre?.let { setGenreText(it) }
             Log.d("ResultFragment", "initResultSongs ${parentViewModel.resultListState.value}")
         }
     }
@@ -90,6 +88,26 @@ class ResultFragment : BaseFragment<FragmentResultBinding>(R.layout.fragment_res
     private fun NavController.toDetail(index: Int) {
         var action = ResultFragmentDirections.actionResultFragmentToDetailFragment(index)
         navigate(action)
+    }
+
+    private fun setGenreImage(genre: String){
+        val imageView = binding.ivGenre
+        when (genre) {
+            "Folk" -> imageView.setImageResource(R.drawable.folk)
+            "Electronic" -> imageView.setImageResource(R.drawable.electronic)
+            "Experimental" -> imageView.setImageResource(R.drawable.experimental)
+            "Hip_Hop" -> imageView.setImageResource(R.drawable.hiphop)
+            "Instrumental" -> imageView.setImageResource(R.drawable.instrumental)
+            "International" -> imageView.setImageResource(R.drawable.international)
+            "Pop" -> imageView.setImageResource(R.drawable.pop)
+            "Rock" -> imageView.setImageResource(R.drawable.rock)
+            else -> imageView.setImageResource(R.drawable.epilogo)
+        }
+    }
+
+    private fun setGenreText(genre: String){
+        val textView = binding.tvGenre
+        textView.text = genre
     }
 
 

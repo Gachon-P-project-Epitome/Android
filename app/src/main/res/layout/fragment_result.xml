@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
 
         <variable
             name="vm"
             type="com.janob.epitome.presentation.ui.main.result.ResultViewModel" />
+        <variable
+            name="pvm"
+            type="com.janob.epitome.presentation.ui.main.MainViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -50,14 +54,51 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:onClick="@{()->vm.navigateToBack()}"/>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cd_genre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/iv_logo"
+                    app:layout_constraintBottom_toTopOf="@id/rv_result"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:src="@drawable/international"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_genre"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="international"
+                    android:fontFamily="@font/hanbit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="@id/cd_genre"
+                    app:layout_constraintBottom_toBottomOf="@id/cd_genre"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:elevation="10dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    app:layout_constraintTop_toBottomOf="@id/iv_logo"
-                    android:layout_marginTop="30dp"
+                    app:layout_constraintTop_toBottomOf="@id/cd_genre"
+                    android:layout_marginTop="20dp"
                     />
 
 
