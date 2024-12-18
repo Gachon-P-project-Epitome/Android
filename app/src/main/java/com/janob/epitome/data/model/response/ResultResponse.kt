@@ -15,4 +15,5 @@ data class ResultResponse(
     val previewUrl : String,
     val similarity : Double,
     val id : String,
+    val genre : String,
 )
