@@ -26,6 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
     private val viewModel: HomeViewModel by viewModels()
     private val parentViewModel: MainViewModel by activityViewModels()
     private var animator: ObjectAnimator? = null
+    private var location: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,6 +35,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
 
         initEventObserve()
         observeParentViewModel()
+        initOnClick()
+    }
+
+    private fun initOnClick(){
+        binding.btnRight.setOnClickListener {
+            viewModel.onClickInputMusic()
+            location = "right"
+            Log.d("location",location)
+        }
+        binding.btnLeft.setOnClickListener {
+            viewModel.onClickInputMusic()
+            location = "left"
+            Log.d("location",location)
+        }
+        binding.btnTop.setOnClickListener {
+            viewModel.onClickInputMusic()
+            location = "top"
+            Log.d("location",location)
+        }
+        binding.btnBottom.setOnClickListener {
+            viewModel.onClickInputMusic()
+            location = "bottom"
+            Log.d("location",location)
+        }
+        binding.btnCenter.setOnClickListener {
+            viewModel.onClickInputMusic()
+            location = "center"
+            Log.d("location",location)
+        }
+
     }
 
     private fun observeParentViewModel() {

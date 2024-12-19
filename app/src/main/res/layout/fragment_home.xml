@@ -30,8 +30,58 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="@{()->vm.onClickInputMusic()}"
             android:src="@drawable/logo_epitome_150"/>
+
+        <Button
+            android:id="@+id/btn_left"
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:background="@drawable/rect_trans"
+            app:layout_constraintStart_toStartOf="@id/btn_imput_music"
+            app:layout_constraintTop_toTopOf="@id/btn_imput_music"
+            app:layout_constraintBottom_toBottomOf="@id/btn_imput_music"
+            android:elevation="10dp"/>
+
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:background="@drawable/rect_trans"
+            app:layout_constraintEnd_toEndOf="@id/btn_imput_music"
+            app:layout_constraintTop_toTopOf="@id/btn_imput_music"
+            app:layout_constraintBottom_toBottomOf="@id/btn_imput_music"
+            android:elevation="10dp"/>
+
+        <Button
+            android:id="@+id/btn_top"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rect_trans"
+            app:layout_constraintStart_toStartOf="@id/btn_imput_music"
+            app:layout_constraintEnd_toEndOf="@id/btn_imput_music"
+            app:layout_constraintTop_toTopOf="@id/btn_imput_music"
+            android:elevation="15dp"/>
+
+        <Button
+            android:id="@+id/btn_bottom"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rect_trans"
+            app:layout_constraintStart_toStartOf="@id/btn_imput_music"
+            app:layout_constraintEnd_toEndOf="@id/btn_imput_music"
+            app:layout_constraintBottom_toBottomOf="@id/btn_imput_music"
+            android:elevation="15dp"/>
+
+        <Button
+            android:id="@+id/btn_center"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rect_trans"
+            app:layout_constraintStart_toStartOf="@id/btn_imput_music"
+            app:layout_constraintEnd_toEndOf="@id/btn_imput_music"
+            app:layout_constraintTop_toTopOf="@id/btn_imput_music"
+            app:layout_constraintBottom_toBottomOf="@id/btn_imput_music"
+            android:elevation="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
