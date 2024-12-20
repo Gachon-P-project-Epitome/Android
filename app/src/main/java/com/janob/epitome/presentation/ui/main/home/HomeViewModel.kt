@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 sealed class HomeEvent {
     data object NavigateToResult : HomeEvent()
-    data object StartRecoding : HomeEvent()
+    data class StartRecoding(val location: String) : HomeEvent() // location 추가
     data object StopRecoding : HomeEvent()
 }
 
@@ -30,17 +30,29 @@ class HomeViewModel @Inject constructor() : ViewModel()  {
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
 
-    fun onClickInputMusic(){
+
+    private val _location = MutableStateFlow<String>("")
+    val location: StateFlow<String> get() = _location
+
+    fun setLocation(newLocation: String) {
+        _location.value = newLocation
+    }
+
+    fun onClickInputMusic(location: String) {
         viewModelScope.launch {
-            if(_isRecording.value){
+
+            if (_isRecording.value) {
                 _isRecording.value = false
                 _event.emit(HomeEvent.StopRecoding)
-            }else{
+            } else {
+                // location 값을 직접 설정
+                _location.value = location
                 _isRecording.value = true
-                _event.emit(HomeEvent.StartRecoding)
+                // location 값을 사용하여 이벤트 발송
+                _event.emit(HomeEvent.StartRecoding(location))
             }
-
         }
-
     }
+
+
 }

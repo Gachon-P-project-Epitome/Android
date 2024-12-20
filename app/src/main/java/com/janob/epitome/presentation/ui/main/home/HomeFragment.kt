@@ -40,31 +40,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
 
     private fun initOnClick(){
         binding.btnRight.setOnClickListener {
-            viewModel.onClickInputMusic()
-            location = "right"
-            Log.d("location",location)
+            viewModel.onClickInputMusic("right")
         }
         binding.btnLeft.setOnClickListener {
-            viewModel.onClickInputMusic()
-            location = "left"
-            Log.d("location",location)
+            viewModel.onClickInputMusic("left")
         }
         binding.btnTop.setOnClickListener {
-            viewModel.onClickInputMusic()
-            location = "top"
-            Log.d("location",location)
+            viewModel.onClickInputMusic("top")
         }
         binding.btnBottom.setOnClickListener {
-            viewModel.onClickInputMusic()
-            location = "bottom"
-            Log.d("location",location)
+            viewModel.onClickInputMusic("bottom")
         }
         binding.btnCenter.setOnClickListener {
-            viewModel.onClickInputMusic()
-            location = "center"
-            Log.d("location",location)
+            viewModel.onClickInputMusic("center")
         }
-
     }
 
     private fun observeParentViewModel() {
@@ -89,8 +78,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
             viewModel.event.collect {
                 when (it) {
                     is HomeEvent.NavigateToResult -> findNavController().toResult()
-                    HomeEvent.StartRecoding -> {
-                        parentViewModel.goToSetInputMusic()
+                    is HomeEvent.StartRecoding -> {
+                        // ViewModel에서 location 값을 가져옴
+                        val currentLocation = viewModel.location.value
+                        Log.d("StartRecoding", currentLocation)
+                        parentViewModel.goToSetInputMusic(currentLocation)
                     }
                     HomeEvent.StopRecoding -> {
                         parentViewModel.stopGetMusic()
