@@ -1,29 +1,38 @@
 package com.janob.epitome.presentation.ui.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.media.AudioFormat
+import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.janob.epitome.presentation.base.BaseActivity
 import com.janob.epitome.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var navController: NavController
-    private lateinit var mediaRecorder: MediaRecorder
+    private lateinit var audioRecord: AudioRecord
     private var isRecording = false
+
+    // 샘플링 주파수와 채널 형식, 인코딩 형식을 올바르게 설정
+    private val bufferSize = AudioRecord.getMinBufferSize(
+        44100, // 샘플링 주파수
+        AudioFormat.CHANNEL_IN_MONO, // 채널 형식
+        AudioFormat.ENCODING_PCM_16BIT // PCM 인코딩 형식
+    )
+
     private lateinit var filePath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initEventObserve()
 
         // 파일 경로 설정
-        filePath = "${externalCacheDir?.absolutePath}/recorded_audio.mp4"
+        filePath = "${externalCacheDir?.absolutePath}/recorded_audio.pcm"
     }
 
     private fun initEventObserve() {
@@ -39,16 +48,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             viewModel.event.collect { event ->
                 when (event) {
                     is MainEvent.GoToGetMusic -> {
-                        // music 입력받기
-                        if (checkPermissions()) {
-                            startRecording()
-                        } else {
-                            requestPermissions()
-                        }
+                        startRecording() // 권한 체크는 startRecording 내에서 진행
                     }
 
                     is MainEvent.StopGetMusic -> {
-                        // 녹음 중지
                         stopRecording()
                     }
 
@@ -61,54 +64,79 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startRecording() {
-        mediaRecorder = MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            setOutputFile(filePath)
-            prepare()
-            start()
+        if (!checkPermissions()) {
+            requestPermissions() // 권한 요청
+            return
         }
-        isRecording = true
-        // todo: 애니메이션 시작
-        viewModel.controlAnimation(isRecording)
+
+        audioRecord = AudioRecord(
+            MediaRecorder.AudioSource.MIC,
+            44100,
+            AudioFormat.CHANNEL_IN_MONO,
+            AudioFormat.ENCODING_PCM_16BIT,
+            bufferSize
+        )
+
+        try {
+            audioRecord.startRecording()
+            isRecording = true
+            viewModel.controlAnimation(isRecording) // UI 스레드에서 애니메이션 처리
+
+            // 녹음 스레드 시작
+            Thread {
+                Log.d("startRecording Thread", "start recording")
+                val pcmData = ByteArray(bufferSize)
+                val outputStream = FileOutputStream(filePath)
+
+                while (isRecording) {
+                    val readSize = audioRecord.read(pcmData, 0, bufferSize)
+                    if (readSize > 0) {
+                        outputStream.write(pcmData, 0, readSize)
+                    }
+                }
+
+                outputStream.close()
+            }.start()
+        } catch (e: Exception) {
+            Log.e("AudioRecord", "녹음 시작 실패: ${e.message}")
+            showToastMessage("녹음 시작 실패")
+        }
     }
 
     private fun stopRecording() {
         if (isRecording) {
-            mediaRecorder.apply {
-                stop()
-                release()
-            }
-            isRecording = false
-            viewModel.controlAnimation(isRecording)
-
-            // MP3 파일 경로 설정
-            val mp3FilePath = "${externalCacheDir?.absolutePath}/converted_audio.mp3"
-
-            // MP4 파일을 MP3로 변환
-            convertMp4ToMp3(filePath, mp3FilePath)
+            audioRecord.stop()
+            audioRecord.release()
         }
+        isRecording = false
+        viewModel.controlAnimation(isRecording)
+
+        // MP3 파일 경로 설정
+        val mp3FilePath = "${externalCacheDir?.absolutePath}/converted_audio.mp3"
+        // PCM 파일을 MP3로 변환
+        convertPcmToMp3(filePath, mp3FilePath)
     }
 
-    private fun convertMp4ToMp3(mp4FilePath: String, mp3FilePath: String) {
+    private fun convertPcmToMp3(pcmFilePath: String, mp3FilePath: String) {
         // FFmpeg 명령어 생성
-        val command = "-y -i $mp4FilePath -vn -ar 44100 -ac 2 -b:a 192k $mp3FilePath"
+        val command = "-y -f s16le -ar 44100 -ac 1 -i $pcmFilePath -codec:a libmp3lame -b:a 256k $mp3FilePath"
 
         // 변환 실행
         val rc = FFmpeg.execute(command)
 
         if (rc == 0) {
-            Log.d("convertMp4ToMp3","변환 성공")
+            Log.d("convertPcmToMp3", "변환 성공: $mp3FilePath")
             lifecycleScope.launch {
                 showLoading(this@MainActivity)
                 viewModel.setInputMusic(mp3FilePath) // 변환된 MP3 파일 경로를 ViewModel에 전달
             }
         } else {
-            Log.d("convertMp4ToMp3","변환 실패: 코드 $rc")
+            Log.e("convertPcmToMp3", "변환 실패: 코드 $rc")
         }
     }
+
 
     private fun checkPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
@@ -116,14 +144,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun requestPermissions() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startRecording()
+                startRecording() // 권한이 허용되면 녹음 시작
             } else {
                 showToastMessage("권한 설정이 필요합니다")
             }
